@@ -22,4 +22,13 @@ public class ExpressionTree {
 	 */
 
 	
+	/** 
+	 *  TODO evaluate()
+	 *  	return the result value of a given expression
+	 */
+				
+	/**
+	 * Returns true if the list is empty and false otherwise.
+	 */
+	
 }

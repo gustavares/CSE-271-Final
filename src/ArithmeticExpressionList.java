@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 /**
- * ArithmeticExpression lists all the valid arithmetic expressions from a file
- * onto an ExpressionTree.
+ * ArithmeticExpressionList lists all the valid arithmetic expressions from a file
+ * onto a List of Expression Trees which each Tree represents one expression from the file.
  * @author Gustavo
  *
  */
-public class ArithmeticExpression {
+public class ArithmeticExpressionList {
 	
 	private List<ExpressionTree> expressionList = null;
 	private String filename = null;
 	
-	public ArithmeticExpression (String fileName) {
+	public ArithmeticExpressionList (String fileName) {
 		this.filename = fileName;
 		// TODO set the Expression tree here
 	}
@@ -26,15 +26,6 @@ public class ArithmeticExpression {
 		return expressionList;
 	}
 	
-	
-	/** 
-	 *  TODO evaluate()
-	 *  	return the result value of a given expression
-	 */
-				
-	/**
-	 * Returns true if the list is empty and false otherwise.
-	 */
 	public boolean isEmpty() {
 		return this.expressionList.isEmpty();
 	}
