@@ -26,9 +26,9 @@ public class Main {
 		stack.push("-");
 		ExpressionTree tree = new ExpressionTree(stack);
 		System.out.println(tree.reversePolishNotationForm(tree.getRoot()));
-		tree.infixNotationForm(tree.getRoot());
+		System.out.println(tree.infixNotationForm(tree.getRoot()));
 		
 		System.out.println();
-		System.out.printf("%d", tree.evaluate(tree.getRoot()));
+		System.out.printf("%d", tree.value(tree.getRoot()));
 	}
 }

@@ -53,7 +53,6 @@ public class ExpressionTree {
 		if (!isEmpty(node)) {
 			expression += reversePolishNotationForm(node.getLeft());
 			expression += reversePolishNotationForm(node.getRight());
-			//System.out.print(node.getLabel() + " ");
 			expression += node.getLabel() + " ";
 		}
 		return expression;
@@ -62,23 +61,24 @@ public class ExpressionTree {
 	/**
 	 * Returns a String in the Infix Form from a given expression tree
 	 */
-	public void infixNotationForm(Node node) {
+	public String infixNotationForm(Node node) {
+		String expression = "";
 		if (!isEmpty(node)) {
 			if(isOperator(node.getLabel())) 
-				System.out.print("(");
-			infixNotationForm(node.getLeft());
-			System.out.print(node.getLabel());
-			infixNotationForm(node.getRight());
+				expression += "(";
+			expression += infixNotationForm(node.getLeft());
+			expression += node.getLabel();
+			expression += infixNotationForm(node.getRight());
 			if(isOperator(node.getLabel())) 
-				System.out.print(")");
+				expression += ")";
 		}
+		return expression;
 	}
-	
 	
 	/**
 	 * Returns the result of an expression given its tree's root
 	 */
-	public int evaluate(Node node) {
+	public int value(Node node) {
 		if(isEmpty(node))
 			return 0;
 		String rpn = reversePolishNotationForm(node);
