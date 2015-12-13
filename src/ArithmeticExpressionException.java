@@ -1,4 +1,5 @@
 
-public class ArithmeticExpressionException {
-
+public class ArithmeticExpressionException extends RuntimeException{
+	
+	public ArithmeticExpressionException() {}
 }

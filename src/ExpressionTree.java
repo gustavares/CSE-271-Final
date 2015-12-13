@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +27,7 @@ public class ExpressionTree {
 	}
 	
 	/**
-	 * Generate an expression tree from a given stack 
+	 * Generate an expression tree from a given stack  
 	 */
 	private Node generateExpressionTree(Stack<String> expressionStack) {
 		Node node = new Node();
@@ -112,12 +113,14 @@ public class ExpressionTree {
 					}
 				}
 			}	
-        } catch (EmptyStackException e) {
-        	System.err.printf("%s is not a valid expression.", rpn);
+        } catch (ArithmeticException e) {
+        	System.err.printf("Can't evaluate %s. Check if there's division by zero. ", rpn);
         }	
         return Integer.valueOf(stack.pop());
 	}
 
+
+	
 	public boolean isEmpty(Node node) {
 		if (node == null)
 			return true;
@@ -128,13 +131,18 @@ public class ExpressionTree {
 		}
 	}
 	
-	// TODO move this methods to an Interface
+	/**
+	 * Returns true if a given token is an Operand and false otherwise.
+	 */
 	public static boolean isOperand(String token) {
 		if(token.matches("-?\\d+"))
 			return true;
 		return false;
 	}
 	
+	/**
+	 * Returns true if a given token is an Operator and false otherwise.
+	 */
 	public static boolean isOperator(String token) {
 		if(token.matches("[\\/\\+\\-\\*\\%]"))
 			return true;
