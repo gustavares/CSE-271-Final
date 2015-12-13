@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -24,6 +25,9 @@ public class ExpressionTree {
 		return this.root;
 	}
 	
+	/**
+	 * Generate an expression tree from a given stack 
+	 */
 	private Node generateExpressionTree(Stack<String> expressionStack) {
 		Node node = new Node();
 		if(expressionStack.isEmpty()) {
@@ -41,15 +45,23 @@ public class ExpressionTree {
 		return node;
 	}
 	
-	// TODO: make it return a string that can be used to evaluate the expression
-	public void reversePolishNotationForm(Node node) {
+	/**
+	 * Returns a String in the Reverse Polish Notation Form from a given expression tree
+	 */
+	public String reversePolishNotationForm(Node node) {
+		String expression = "";
 		if (!isEmpty(node)) {
-			reversePolishNotationForm(node.getLeft());
-			reversePolishNotationForm(node.getRight());
-			System.out.print(node.getLabel() + " ");
+			expression += reversePolishNotationForm(node.getLeft());
+			expression += reversePolishNotationForm(node.getRight());
+			//System.out.print(node.getLabel() + " ");
+			expression += node.getLabel() + " ";
 		}
+		return expression;
 	}
 	
+	/**
+	 * Returns a String in the Infix Form from a given expression tree
+	 */
 	public void infixNotationForm(Node node) {
 		if (!isEmpty(node)) {
 			if(isOperator(node.getLabel())) 
@@ -62,30 +74,50 @@ public class ExpressionTree {
 		}
 	}
 	
+	
+	/**
+	 * Returns the result of an expression given its tree's root
+	 */
 	public int evaluate(Node node) {
 		if(isEmpty(node))
 			return 0;
-		return 0;
+		String rpn = reversePolishNotationForm(node);
+		
+		String[] tokens = rpn.split("\\s+");
+        Stack<Integer> stack = new Stack<Integer>();
+        try {    	
+        	for (String token : tokens) {
+				if (isOperand(token)) {
+					stack.push(Integer.valueOf(token)); // push to stack if it's a number
+				} else {
+					int op2 = stack.pop(); // pop numbers from stack if it's an operator
+					int op1 = stack.pop();
+					
+					switch (token) {
+					case "+":
+						stack.push(op1 + op2);
+						break;
+					case "-":
+						stack.push(op1 - op2);
+						break;
+					case "*":
+						stack.push(op1 * op2);
+						break;
+					case "/":
+						stack.push(op1 / op2);
+						break;
+					case "%":
+						stack.push(op1 % op2);
+						break;
+					}
+				}
+			}	
+        } catch (EmptyStackException e) {
+        	System.err.printf("%s is not a valid expression.", rpn);
+        }	
+        return Integer.valueOf(stack.pop());
 	}
 
-	/** 
-	 *  TODO evaluate()
-	 *  	return the result value of a given expression
-	 */
-	
-
-	public static boolean isOperand(String label) {
-		if(label.matches("-?\\d+"))
-			return true;
-		return false;
-	}
-	
-	public static boolean isOperator(String label) {
-		if(label.matches("[\\/\\+\\-\\*\\%]"))
-			return true;
-		return false;
-	}
-	
 	public boolean isEmpty(Node node) {
 		if (node == null)
 			return true;
@@ -96,8 +128,16 @@ public class ExpressionTree {
 		}
 	}
 	
+	// TODO move this methods to an Interface
+	public static boolean isOperand(String token) {
+		if(token.matches("-?\\d+"))
+			return true;
+		return false;
+	}
 	
-	
-	
-	
+	public static boolean isOperator(String token) {
+		if(token.matches("[\\/\\+\\-\\*\\%]"))
+			return true;
+		return false;
+	}
 }
